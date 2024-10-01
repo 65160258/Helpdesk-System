@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Question</title>
+</head>
+<body>
+    <h1>Add New Question</h1>
+
+    <!-- ลิงก์กลับไปที่หน้า index -->
+    <button onclick="window.location.href='/knowledge'">Back</button>
+
+    <form action="/knowledge/add" method="POST">
+        <label for="question">Question:</label>
+        <input type="text" id="question" name="question" required><br>
+
+        <label for="answer">Answer:</label>
+        <textarea id="answer" name="answer" required></textarea><br>
+
+        <button type="submit">Add Question</button>
+    </form>
+</body>
+</html>

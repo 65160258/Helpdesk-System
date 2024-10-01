@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Ticket</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- CSS styles if needed -->
+</head>
+<body>
+    <h1>Edit Ticket</h1>
+    <form action="/tickets/<%= ticket.id %>/edit" method="POST">
+        <label for="status">Status:</label>
+        <select id="status" name="status" required>
+            <option value="New" <%= ticket.status === 'New' ? 'selected' : '' %>>New</option>
+            <option value="Assigned" <%= ticket.status === 'Assigned' ? 'selected' : '' %>>Assigned</option>
+            <option value="In Progress" <%= ticket.status === 'In Progress' ? 'selected' : '' %>>In Progress</option>
+            <option value="Resolved" <%= ticket.status === 'Resolved' ? 'selected' : '' %>>Resolved</option>
+            <option value="Closed" <%= ticket.status === 'Closed' ? 'selected' : '' %>>Closed</option>
+        </select>
+        <button type="submit">Update Status</button>
+    </form>
+    <a href="/tickets">Back to Tickets</a>
+
+    <script>
+        // Function to update the dropdown options based on the selected status
+        function updateOptions() {
+            const statusSelect = document.getElementById('status');
+            const selectedValue = statusSelect.value;
+    
+            // Get all options
+            const options = statusSelect.options;
+    
+            // Loop through all options and set visibility based on the selected value
+            for (let i = 0; i < options.length; i++) {
+                // Set display style based on the selected value
+                if (selectedValue === 'New') {
+                    options[i].style.display = (options[i].value === 'Assigned') ? 'block' : 'none';
+                } else if (selectedValue === 'Assigned') {
+                    options[i].style.display = (options[i].value === 'In Progress' || 
+                                                 options[i].value === 'Closed') ? 'block' : 'none';
+                } else if (selectedValue === 'In Progress') {
+                    options[i].style.display = (options[i].value === 'Resolved' || 
+                                                 options[i].value === 'Closed') ? 'block' : 'none';
+                } else if (selectedValue === 'Resolved') {
+                    options[i].style.display = (options[i].value === 'Closed') ? 'block' : 'none';
+                } else {
+                    options[i].style.display = 'block'; // Show all if status is Closed
+                }
+            }
+        }
+    
+        // Initialize the dropdown options based on the current status on page load
+        window.onload = function() {
+            updateOptions();
+        };
+    </script>    
+</body>
+</html>

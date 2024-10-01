@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Reports</title>
+</head>
+<body>
+    <h1>Admin Reports</h1>
+    
+    <!-- Table displaying the reports -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Report Title</th>
+                <th>Date Created</th>
+                <th>Usage Data</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% reports.forEach(report => { %>
+            <tr>
+                <td><%= report.title %></td>
+                <td><%= report.date.toLocaleDateString() %></td>
+                <td><%= report.usageData %></td>
+                <td><a href="/report/edit/<%= report.id %>">Edit</a></td> <!-- Link to edit report -->
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    
+    <!-- Form to add a new report -->
+    <h2>Add a New Report</h2>
+    <form action="/report" method="POST">
+        <label>Report Title:</label>
+        <input type="text" name="title" required><br><br>
+        <label>Usage Data:</label>
+        <textarea name="usageData" required></textarea><br><br>
+        <button type="submit">Submit Report</button>
+    </form>
+    
+    <button onclick="window.location.href='/index'">Back To HomePage</button>
+</body>
+</html>

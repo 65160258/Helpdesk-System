@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ & Knowledge Base</title>
+    <style>
+        button {
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>FAQ & Knowledge Base</h1>
+
+    <!-- ลิงก์กลับไปที่หน้า index -->
+    <button onclick="window.location.href='/index'">Back to HomePage</button><br>
+
+    <!-- ปุ่มสำหรับเพิ่มคำถามใหม่ -->
+    <button onclick="window.location.href='/knowledge/add'">Add New Question</button>
+
+    <ul>
+        <% knowledge.forEach(function(item) { %>
+            <li>
+                <strong>Question:</strong> <%= item.question %><br>
+                <strong>Answer:</strong> <%= item.answer %><br>
+                <small>Date Added: <%= new Date(item.created_at).toLocaleDateString() %></small>
+
+                <!-- ปุ่มสำหรับแก้ไขข้อมูล -->
+                <button onclick="window.location.href='/knowledge/edit/<%= item.id %>'">Edit</button>
+
+                <!-- ปุ่มสำหรับลบข้อมูล -->
+                <form action="/knowledge/delete/<%= item.id %>" method="POST" style="display:inline;">
+                    <button type="submit" onclick="return confirm('Do you want to delete this?')">Delete</button>
+                </form>
+            </li>
+            <hr>
+        <% }); %>
+    </ul>
+</body>
+</html>

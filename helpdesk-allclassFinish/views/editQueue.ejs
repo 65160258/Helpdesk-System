@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Queue Priority</title>
+</head>
+
+<body>
+    <h1>Edit Queue Priority</h1>
+    <form action="/queues/<%= queue.id %>/update" method="POST">
+        <label for="issue">Issue:</label>
+        <p><%= queue.ticketId ? (tickets.find(t => t.id === queue.ticketId)?.issue || 'N/A') : 'N/A' %></p>
+        
+        <label for="priority">Priority:</label>
+        <select name="priority" id="priority">
+            <option value="Low" <%= queue.priority === 'Low' ? 'selected' : '' %>>Low</option>
+            <option value="Medium" <%= queue.priority === 'Medium' ? 'selected' : '' %>>Medium</option>
+            <option value="High" <%= queue.priority === 'High' ? 'selected' : '' %>>High</option>
+            <option value="Urgent" <%= queue.priority === 'Urgent' ? 'selected' : '' %>>Urgent</option>
+        </select>
+
+        <button type="submit">Update</button>
+    </form>
+
+    <button onclick="window.location.href='/queues'">Back To Queue Management</button>
+</body>
+
+</html>
