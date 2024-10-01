@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queues</title>
+    <script>
+        function sortQueues(criteria) {
+            const order = document.getElementById("orderOptions").value; // Get the selected order
+            const table = document.getElementById("queuesTable");
+            const tbody = table.getElementsByTagName("tbody")[0];
+            const rows = Array.from(tbody.getElementsByTagName("tr"));
+
+            rows.sort((a, b) => {
+                const ticketA = a.cells[0].innerText; // ID
+                const ticketB = b.cells[0].innerText; // ID
+                const priorityOrder = { 'Urgent': 4, 'High': 3, 'Medium': 2, 'Low': 1 }; // Priority mapping
+
+                let valueA, valueB;
+                if (criteria === "id") {
+                    valueA = parseInt(ticketA);
+                    valueB = parseInt(ticketB);
+                } else if (criteria === "priority") {
+                    valueA = priorityOrder[a.cells[3].innerText] || 0; // Priority column
+                    valueB = priorityOrder[b.cells[3].innerText] || 0; // Priority column
+                } else if (criteria === "status") {
+                    valueA = a.cells[2].innerText; // Status column
+                    valueB = b.cells[2].innerText; // Status column
+                }
+
+                // Sort based on selected order
+                if (order === "asc") {
+                    return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
+                } else {
+                    return valueB < valueA ? -1 : valueB > valueA ? 1 : 0;
+                }
+            });
+
+            // Clear the tbody and append sorted rows
+            tbody.innerHTML = "";
+            rows.forEach(row => tbody.appendChild(row));
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Queue Management</h1>
+    <button onclick="window.location.href='/index'">Back To HomePage</button>
+    <button onclick="window.location.href='/tickets'">Tickets Management</button>
+
+    <label for="sortOptions">Sort By:</label>
+    <select id="sortOptions" onchange="sortQueues(this.value)">
+        <option value="priority">Priority</option>
+        <option value="id">ID</option>
+    </select>
+
+    <label for="orderOptions">Order:</label>
+    <select id="orderOptions" onchange="sortQueues(document.getElementById('sortOptions').value)">
+        <option value="desc">มากไปน้อย</option>
+        <option value="asc">น้อยไปมาก</option>
+    </select>
+
+    <table id="queuesTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Issue</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Actions</th> <!-- Added actions column -->
+            </tr>
+        </thead>
+        <tbody>
+            <% 
+                // Define a sorting function for priority
+                const priorityOrder = { 'Urgent': 4, 'High': 3, 'Medium': 2, 'Low': 1 }; // Adjust based on your priority values
+
+                // Sort queues based on ticket status and then by priority
+                queues.sort((a, b) => {
+                    const ticketA = tickets.find(t => t.id === a.ticketId);
+                    const ticketB = tickets.find(t => t.id === b.ticketId);
+                    const statusA = ticketA ? ticketA.status : 'Unknown'; // Get status of ticket A
+                    const statusB = ticketB ? ticketB.status : 'Unknown'; // Get status of ticket B
+
+                    // If ticket is closed, set a low priority
+                    const priorityA = (statusA === 'Closed') ? 'Low' : a.priority;
+                    const priorityB = (statusB === 'Closed') ? 'Low' : b.priority;
+
+                    // Order based on priority (Urgent first)
+                    return priorityOrder[priorityB] - priorityOrder[priorityA];
+                });
+            %>
+            <% queues.forEach(queue => { %>
+                <% const ticket = tickets.find(t => t.id === queue.ticketId); %>
+                <tr>
+                    <td>
+                        <%= ticket ? ticket.id : 'N/A' %>
+                    </td>
+                    <td>
+                        <%= ticket ? ticket.issue : 'N/A' %>
+                    </td>
+                    <td>
+                        <%= ticket ? ticket.status : 'N/A' %>
+                    </td>
+                    <td>
+                        <%= (ticket && ticket.status === 'Closed') ? 'Low' : queue.priority || 'N/A' %> <!-- Set priority to Low if Closed -->
+                    </td>
+                    <td>
+                        <% if (ticket) { %> <!-- Only show the edit link if the ticket exists -->
+                            <a href="/queues/<%= queue.id %>/edit">Edit Priority</a>
+                            <% if (ticket.status !== 'Closed') { %>
+                                <form action="/tickets/<%= ticket.id %>/edit" method="GET" style="display:inline;">
+                                    <button type="submit">Edit Status</button>
+                                </form>
+                            <% } %>
+                        <% } %>
+                    </td>
+                </tr>
+            <% }); %>
+            <% if (queues.length === 0) { %>
+                <tr>
+                    <td colspan="5">No queues available.</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</body>
+
+</html>
