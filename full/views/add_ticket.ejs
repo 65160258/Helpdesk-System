@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Ticket</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- CSS styles if needed -->
+</head>
+<body>
+    <h1>Add New Ticket</h1>
+    <form action="/tickets/add_ticket" method="POST">
+        <label for="issue">Issue:</label>
+        <textarea id="issue" name="issue" required></textarea>
+        <button type="submit">Submit</button>
+    </form>
+    <a href="/tickets">Back to Tickets</a>
+</body>
+</html>

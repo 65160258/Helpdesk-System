@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reply to Ticket ID: <%= ticket.id %></title>
+    <link rel="stylesheet" href="/styles.css"> <!-- CSS styles if needed -->
+</head>
+<body>
+    <h1>Ticket ID: <%= ticket.id %></h1>
+    <button onclick="window.location.href='/queues'">Back</button> <!-- Button to view all tickets -->
+
+    <h2>Ticket Details</h2>
+    <table>
+        <tr>
+            <th>ID:</th>
+            <td><%= ticket.id %></td>
+        </tr>
+        <tr>
+            <th>Issue:</th>
+            <td><%= ticket.issue %></td>
+        </tr>
+        <tr>
+            <th>Status:</th>
+            <td><%= ticket.status %></td>
+        </tr>
+    </table>
+
+    <h3>Messages:</h3>
+    <pre><%= ticket.messages ? ticket.messages : 'No messages yet' %></pre>
+
+    <!-- Form for staff to send messages -->
+    <% if (user && user.role === 'staff') { %>
+        <form action="/tickets/<%= ticket.id %>/message" method="POST">
+            <input type="text" name="message" placeholder="Type your message to the user" required>
+            <button type="submit">Send Message</button>
+        </form>
+    <% } %>
+
+    <!-- Form for users to reply -->
+    <% if (user && user.role === 'user') { %>
+        <form action="/tickets/<%= ticket.id %>/reply" method="POST">
+            <input type="text" name="message" placeholder="Type your reply to the staff" required>
+            <button type="submit">Send Reply</button>
+        </form>
+    <% } %>
+    </body>
+</html>

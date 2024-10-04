@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Ticket</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>Create Ticket</h1>
+    <form action="/tickets/create" method="POST">
+        <textarea name="issue" placeholder="Describe your issue..." required></textarea>
+        <button type="submit">Submit Ticket</button>
+    </form>
+    <a href="/tickets">View Your Tickets</a>
+</body>
+</html>

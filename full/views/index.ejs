@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <h1>Welcome, <%= user.username %>!</h1>
+    <p>This is the home page of the Helpdesk System.</p>
+    <a href="/tickets">View Your Tickets</a><br>
+    <a href="/knowledge">View Knowledge Base</a><br>
+    
+    <% if (user && user.role === 'staff') { %> <!-- Check if user is defined and if user is staff -->
+        <a href="/report">View Reports</a><br>
+        <a href="/queues">Manage Queues</a><br> <!-- Link for Queue Management only visible to staff -->
+    <% } %>
+    
+    <a href="/logout">Logout</a>
+</body>
+
+</html>
